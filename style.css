@@ -462,10 +462,16 @@ footer {
     color: #ccc;
 }
 
-/* --- 10. MOBILE RESPONSIVENESS --- */
+/* --- UPDATED RESPONSIVENESS (Fixes Overlap) --- */
 @media (max-width: 1100px) {
     .nav-center {
-        display: none; /* Hide tagline on small screens to save space */
+        display: none; /* Hides tagline sooner to stop overlap */
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.8rem 5%;
     }
     
     .nav-left img {
