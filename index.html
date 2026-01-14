@@ -652,6 +652,24 @@
                     track.innerHTML = '<div class="loading-text">Error loading photos.</div>';
                 });
         }
+
+            // --- ACCORDION TOGGLE FUNCTION ---
+    function toggleAccordion(button) {
+        // Toggle the 'active' class on the clicked button
+        button.classList.toggle('active');
+        
+        // Find the content div (next sibling)
+        var content = button.nextElementSibling;
+        
+        // Open or Close the content
+        if (button.classList.contains('active')) {
+            content.style.maxHeight = content.scrollHeight + "px"; // Expand
+            content.style.padding = "1.5rem"; // Add padding
+        } else {
+            content.style.maxHeight = null; // Collapse
+            content.style.padding = "0 1.5rem"; // Remove padding
+        }
+    }
     </script>
 </body>
 </html> 
