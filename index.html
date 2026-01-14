@@ -21,18 +21,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         
-        /* 
-           ZOOM STRATEGY: 
-           The root font-size controls the "zoomable" content (rem units).
-           The Navbar uses fixed 'px' units so it ignores the zoom.
-        */
         body {
             font-family: var(--font-main);
             background-color: var(--secondary);
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
-            top: 0 !important; /* Google Translate Fix */
+            top: 0 !important;
         }
 
         /* --- 2. TYPOGRAPHY --- */
@@ -40,7 +35,7 @@
         h4, h5 { font-weight: 600; }
         p { font-weight: 400; margin-bottom: 1rem; }
 
-        /* --- 3. NAVBAR (FIXED SIZES - WON'T ZOOM) --- */
+        /* --- 3. NAVBAR --- */
         .navbar {
             background-color: var(--primary);
             color: var(--text-light);
@@ -52,17 +47,14 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            height: 90px; /* Made Taller */
+            height: 90px;
         }
 
         .nav-left { display: flex; align-items: center; gap: 15px; z-index: 2; }
-        
-        /* Fixed PX sizes to ignore Zoom */
-        .nav-left img { height: 55px; width: auto; } /* Bigger Logo */
-        .college-name { font-weight: bold; font-size: 24px; white-space: nowrap; } /* Bigger Name */
-        .welcome-text { font-size: 18px; font-weight: 500; color: #e0e0e0; white-space: nowrap; } /* Bigger Welcome */
+        .nav-left img { height: 55px; width: auto; }
+        .college-name { font-weight: bold; font-size: 24px; white-space: nowrap; }
+        .welcome-text { font-size: 18px; font-weight: 500; color: #e0e0e0; white-space: nowrap; }
 
-        /* CENTER TAGLINE */
         .nav-center {
             position: absolute;
             left: 50%;
@@ -77,33 +69,21 @@
             border-radius: 50px;
             font-weight: 800;
             font-style: italic;
-            font-size: 20px; /* Bigger Tagline */
+            font-size: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             white-space: nowrap;
         }
 
-        /* RIGHT SIDE */
         .nav-right { display: flex; align-items: center; gap: 15px; z-index: 2; }
         
-        /* Language Widget Container */
-        #google_translate_element {
-            display: inline-block;
-            margin-right: 10px;
-            min-width: 100px; /* Ensure space is reserved */
-        }
-
-        /* Custom Google Translate Styling */
+        #google_translate_element { display: inline-block; margin-right: 10px; min-width: 100px; }
         .goog-te-gadget-simple {
             background-color: rgba(255,255,255,0.2) !important;
             border: 1px solid rgba(255,255,255,0.5) !important;
             padding: 8px 12px !important;
             border-radius: 8px !important;
         }
-        .goog-te-gadget-simple span {
-            color: white !important;
-            font-weight: bold !important;
-            font-size: 16px !important;
-        }
+        .goog-te-gadget-simple span { color: white !important; font-weight: bold !important; font-size: 16px !important; }
         .goog-te-gadget-simple img { display: none !important; }
         .goog-te-banner-frame.skiptranslate { display: none !important; }
 
@@ -111,7 +91,7 @@
             background: rgba(255,255,255,0.2);
             border: 2px solid rgba(255,255,255,0.3);
             color: white;
-            width: 42px; height: 42px; /* Bigger Buttons */
+            width: 42px; height: 42px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold; font-size: 16px;
@@ -120,12 +100,10 @@
         .zoom-btn:hover { background: white; color: var(--primary); }
 
         .hamburger {
-            font-size: 2.5rem; /* Bigger Hamburger */
-            cursor: pointer; background: none; border: none; color: white;
+            font-size: 2.5rem; cursor: pointer; background: none; border: none; color: white;
             padding: 5px; display: flex; align-items: center;
         }
 
-        /* MENU OVERLAY */
         .nav-menu-overlay {
             position: fixed; top: 0; right: -100%; width: 300px; height: 100vh;
             background: var(--primary);
@@ -143,7 +121,7 @@
             background: none; border: none; color: white; cursor: pointer;
         }
 
-        /* --- 4. HERO SECTION (Zoomable) --- */
+        /* --- 4. HERO SECTION --- */
         .hero {
             position: relative; height: 90vh;
             background: linear-gradient(rgba(31, 61, 43, 0.85), rgba(31, 61, 43, 0.7)), url('college.jpg');
@@ -191,7 +169,7 @@
         .course-container { max-width: 800px; margin: 0 auto; }
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         
-        /* --- 7. COURSES --- */
+        /* --- 7. COURSES (DROPDOWN STYLES) --- */
         .course-item {
             background: white; margin-bottom: 20px; border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden;
@@ -230,7 +208,7 @@
 
         /* --- 9. RESPONSIVENESS --- */
         @media (max-width: 1200px) {
-            .nav-center { display: none; } /* Hide tagline sooner for new big buttons */
+            .nav-center { display: none; }
         }
 
         @media (max-width: 768px) {
@@ -238,22 +216,17 @@
             .college-name { font-size: 18px; }
             .nav-left img { height: 40px; }
             .welcome-text { display: none; }
-            
             .hero h1 { font-size: 1.8rem; }
-            .hero-admission { font-size: 1.1rem; }
-            .hero-streams { font-size: 1.2rem; }
-            
             .btn-group { flex-direction: column; width: 100%; }
             .btn { width: 100%; text-align: center; }
-            
             .contact-grid { grid-template-columns: 1fr; }
-            #google_translate_element { display: none; } /* Too small for translate */
+            #google_translate_element { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR (Fixed px sizes) -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
             <img src="logo.png" alt="College Logo"> 
@@ -266,9 +239,7 @@
         </div>
 
         <div class="nav-right">
-            <!-- Language Switcher -->
             <div id="google_translate_element"></div>
-
             <button class="zoom-btn" onclick="adjustZoom(-1)">A-</button>
             <button class="zoom-btn" onclick="adjustZoom(1)">A+</button>
             <button class="hamburger" onclick="toggleMenu()">☰</button>
@@ -319,57 +290,89 @@
         </div>
     </section>
 
+    <!-- UPDATED COURSES SECTION WITH DETAILS -->
     <section id="courses" style="background-color: white;">
         <h2 class="section-title">Our Courses</h2>
         <div class="course-container">
+            
             <!-- HEBA -->
             <div class="course-item reveal">
                 <div class="course-header" onclick="toggleAccordion(this)">
-                    <h3>HEBA</h3>
+                    <h3>HEBA (Arts)</h3>
                     <span class="course-arrow">▼</span>
                 </div>
                 <div class="course-content">
                     <div class="course-content-inner">
                         <h4>History • Economics • Business • Accountancy</h4>
-                        <br>
-                        <p><strong>What is HEBA?</strong><br>A commerce stream combined with social sciences (History/Economics) for strong conceptual clarity.</p>
-                        <p><strong>Who should choose?</strong><br>• Interested in Civil Services, Law, Teaching, Journalism<br>• Enjoy theory and understanding society<br>• Prefer less mathematics</p>
-                        <p><strong>Career Opportunities:</strong><br>Civil Services, Law, Journalism, Teaching, Public Policy.</p>
+                        <hr style="margin: 10px 0; opacity: 0.3;">
+                        
+                        <p><strong>What is it?</strong><br>A unique blend of Commerce and Humanities, designed for students who want business knowledge along with a deep understanding of society and history.</p>
+                        
+                        <p><strong>Who should choose?</strong></p>
+                        <ul style="padding-left: 20px; margin-bottom: 10px;">
+                            <li>Students aiming for Civil Services (UPSC/KAS), Law, or Teaching.</li>
+                            <li>Those who enjoy theory, reading, and social sciences.</li>
+                        </ul>
+
+                        <p><strong>Why choose this?</strong><br>It builds strong analytical and writing skills, essential for competitive exams and legal careers.</p>
+
+                        <p><strong>Future Scope:</strong><br>BA, B.Com, LLB (Law), Journalism, Public Policy, Management.</p>
                     </div>
                 </div>
             </div>
+
             <!-- SEBA -->
             <div class="course-item reveal">
                 <div class="course-header" onclick="toggleAccordion(this)">
-                    <h3>SEBA</h3>
+                    <h3>SEBA (Commerce)</h3>
                     <span class="course-arrow">▼</span>
                 </div>
                 <div class="course-content">
                     <div class="course-content-inner">
                         <h4>Statistics • Economics • Business • Accountancy</h4>
-                        <br>
-                        <p><strong>What is SEBA?</strong><br>A data-oriented stream focusing on numbers, analysis, and logical thinking.</p>
-                        <p><strong>Who should choose?</strong><br>• Good at Mathematics<br>• Aiming for CA, CFA, Actuarial Science<br>• Interested in Data Analysis & Finance</p>
-                        <p><strong>Career Opportunities:</strong><br>Chartered Accountant (CA), Data Analyst, Economist, Stock Market Analyst.</p>
+                        <hr style="margin: 10px 0; opacity: 0.3;">
+
+                        <p><strong>What is it?</strong><br>A core commerce stream focused on data, numbers, and financial analysis. It replaces History with Statistics.</p>
+                        
+                        <p><strong>Who should choose?</strong></p>
+                        <ul style="padding-left: 20px; margin-bottom: 10px;">
+                            <li>Students who are good at Mathematics and logic.</li>
+                            <li>Those aiming for professional finance degrees like CA, CS, or CMA.</li>
+                        </ul>
+
+                        <p><strong>Why choose this?</strong><br>Statistics is the backbone of modern business. This stream offers the highest paying career options in finance.</p>
+
+                        <p><strong>Future Scope:</strong><br>Chartered Accountant (CA), Data Analyst, Investment Banking, Actuarial Science.</p>
                     </div>
                 </div>
             </div>
+
             <!-- CEBA -->
             <div class="course-item reveal">
                 <div class="course-header" onclick="toggleAccordion(this)">
-                    <h3>CEBA</h3>
+                    <h3>CEBA (Commerce)</h3>
                     <span class="course-arrow">▼</span>
                 </div>
                 <div class="course-content">
                     <div class="course-content-inner">
-                        <h4>Comp Science • Economics • Business • Accountancy</h4>
-                        <br>
-                        <p><strong>What is CEBA?</strong><br>Modern commerce stream integrated with technology for the digital economy.</p>
-                        <p><strong>Who should choose?</strong><br>• Interested in Tech + Business<br>• Planning careers in IT, Fintech, Digital Marketing<br>• Comfortable with computers</p>
-                        <p><strong>Career Opportunities:</strong><br>Fintech Professional, Business Analyst, Digital Marketer, E-Commerce Manager.</p>
+                        <h4>Computer Science • Economics • Business • Accountancy</h4>
+                        <hr style="margin: 10px 0; opacity: 0.3;">
+
+                        <p><strong>What is it?</strong><br>The modern commerce stream. It integrates Business Studies with Computer Science technology.</p>
+                        
+                        <p><strong>Who should choose?</strong></p>
+                        <ul style="padding-left: 20px; margin-bottom: 10px;">
+                            <li>Tech-savvy students who want to work in IT or corporate sectors.</li>
+                            <li>Those interested in both coding/technology and business management.</li>
+                        </ul>
+
+                        <p><strong>Why choose this?</strong><br>It opens double doors: you can enter the IT field (BCA) or the Commerce field (B.Com/BBA).</p>
+
+                        <p><strong>Future Scope:</strong><br>BCA, B.Com, MBA in IT, Fintech, Digital Marketing, Software Management.</p>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -423,7 +426,7 @@
     <footer>
         <div class="footer-content">
             <h3>RSDC AMS INDP PU COLLEGE</h3>
-            <p>Hongasandra, Begur Road, Bangalore</p>
+            <p>Hongasandra, Bangalore</p>
             <div class="footer-links">
                 <a href="#home">Home</a>|<a href="#courses">Courses</a>|<a href="https://docs.google.com/forms/d/e/1FAIpQLSfj_jfTp-aXzwqJN2dMpSBsXCw4aZBARPUIY6ZJJTLWNMprBw/viewform" target="_blank">Admissions</a>
             </div>
@@ -444,7 +447,7 @@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
-        // 1. Zoom Logic (Global scale except Navbar)
+        // 1. Zoom Logic
         let currentZoom = 1;
         function adjustZoom(direction) {
             const root = document.documentElement;
@@ -474,4 +477,4 @@
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
-</html>  
+</html> 
