@@ -216,27 +216,6 @@
             .contact-grid { grid-template-columns: 1fr; }
             .gallery-item { width: 280px; height: 200px; }
         }
-
-            /* CARD DROPDOWN STYLES */
-    .course-card {
-        background: #ffffff; padding: 2rem; border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s;
-        border-top: 5px solid var(--primary); position: relative;
-        overflow: hidden; height: 180px; /* Start closed */
-    }
-    
-    .course-card.open { height: auto; border-top-color: var(--gold); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
-    
-    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
-    .course-icon { font-size: 2.5rem; margin-right: 1rem; }
-    .toggle-icon { font-size: 2rem; font-weight: bold; color: var(--primary); transition: 0.3s; }
-    .course-card.open .toggle-icon { transform: rotate(45deg); color: var(--gold); }
-    
-    .card-subtitle { color: #666; font-style: italic; margin-bottom: 1rem; }
-    
-    .card-details { opacity: 0; transition: 0.3s; margin-top: 1rem; }
-    .course-card.open .card-details { opacity: 1; }
-
     </style>
 </head>
 <body>
@@ -292,87 +271,22 @@
         </div>
     </section>
 
-        <!-- COURSES SECTION (CARD DROPDOWNS) -->
-    <section id="courses" style="padding: 4rem 10%; background: var(--secondary);">
+    <!-- COURSES -->
+    <section id="courses" style="background-color: white;">
         <h2 class="section-title">Our Courses</h2>
-        
-        <div class="courses-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            
-            <!-- HEBA CARD -->
-            <div class="course-card" onclick="toggleCard(this)" style="cursor: pointer;">
-                <div class="card-header">
-                    <span class="course-icon">📜</span>
-                    <h3>HEBA (Arts)</h3>
-                    <span class="toggle-icon">+</span>
-                </div>
-                <p class="card-subtitle">History, Economics, Business, Accountancy</p>
-                
-                <div class="card-details">
-                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-                    <strong>What is it?</strong>
-                    <p>A blend of Commerce and Humanities for Civil Services & Law aspirants.</p>
-                    <br>
-                    <strong>Who should choose?</strong>
-                    <ul>
-                        <li>Future IAS/KAS Officers</li>
-                        <li>Lawyers, Teachers, Journalists</li>
-                    </ul>
-                    <br>
-                    <strong>Future Scope:</strong>
-                    <p>BA, B.Com, LLB, Public Policy.</p>
-                </div>
+        <div class="course-container">
+            <div class="course-item reveal">
+                <div class="course-header" onclick="toggleCourse(this)"><h3>HEBA (Arts)</h3><span>▼</span></div>
+                <div class="course-content"><div class="course-content-inner"><p>History, Economics, Business Studies, Accountancy.</p></div></div>
             </div>
-
-            <!-- SEBA CARD -->
-            <div class="course-card" onclick="toggleCard(this)" style="cursor: pointer;">
-                <div class="card-header">
-                    <span class="course-icon">📊</span>
-                    <h3>SEBA (Commerce)</h3>
-                    <span class="toggle-icon">+</span>
-                </div>
-                <p class="card-subtitle">Statistics, Economics, Business, Accountancy</p>
-                
-                <div class="card-details">
-                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-                    <strong>What is it?</strong>
-                    <p>Core commerce with Statistics. Focus on Data & Finance.</p>
-                    <br>
-                    <strong>Who should choose?</strong>
-                    <ul>
-                        <li>Math & Logic lovers</li>
-                        <li>Aspiring CAs and Data Analysts</li>
-                    </ul>
-                    <br>
-                    <strong>Future Scope:</strong>
-                    <p>CA, CS, Data Science, Investment Banking.</p>
-                </div>
+            <div class="course-item reveal">
+                <div class="course-header" onclick="toggleCourse(this)"><h3>SEBA (Commerce)</h3><span>▼</span></div>
+                <div class="course-content"><div class="course-content-inner"><p>Statistics, Economics, Business Studies, Accountancy.</p></div></div>
             </div>
-
-            <!-- CEBA CARD -->
-            <div class="course-card" onclick="toggleCard(this)" style="cursor: pointer;">
-                <div class="card-header">
-                    <span class="course-icon">💻</span>
-                    <h3>CEBA (Commerce)</h3>
-                    <span class="toggle-icon">+</span>
-                </div>
-                <p class="card-subtitle">Computer Science, Economics, Business, Accountancy</p>
-                
-                <div class="card-details">
-                    <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
-                    <strong>What is it?</strong>
-                    <p>Commerce + Technology. Best for IT & Management careers.</p>
-                    <br>
-                    <strong>Who should choose?</strong>
-                    <ul>
-                        <li>Tech-savvy students</li>
-                        <li>Those wanting IT & Business options</li>
-                    </ul>
-                    <br>
-                    <strong>Future Scope:</strong>
-                    <p>BCA, MBA (IT), Fintech, Digital Marketing.</p>
-                </div>
+            <div class="course-item reveal">
+                <div class="course-header" onclick="toggleCourse(this)"><h3>CEBA (Commerce)</h3><span>▼</span></div>
+                <div class="course-content"><div class="course-content-inner"><p>Computer Science, Economics, Business Studies, Accountancy.</p></div></div>
             </div>
-
         </div>
     </section>
 
@@ -652,29 +566,6 @@
                     track.innerHTML = '<div class="loading-text">Error loading photos.</div>';
                 });
         }
-
-            // --- ACCORDION TOGGLE FUNCTION ---
-    function toggleAccordion(button) {
-        // Toggle the 'active' class on the clicked button
-        button.classList.toggle('active');
-        
-        // Find the content div (next sibling)
-        var content = button.nextElementSibling;
-        
-        // Open or Close the content
-        if (button.classList.contains('active')) {
-            content.style.maxHeight = content.scrollHeight + "px"; // Expand
-            content.style.padding = "1.5rem"; // Add padding
-        } else {
-            content.style.maxHeight = null; // Collapse
-            content.style.padding = "0 1.5rem"; // Remove padding
-        }
-    }
-
-    // CARD TOGGLE FUNCTION
-    function toggleCard(card) {
-        card.classList.toggle('open');
-    }    
     </script>
 </body>
 </html> 
