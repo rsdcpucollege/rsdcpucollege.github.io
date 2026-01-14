@@ -26,6 +26,8 @@
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
+            /* Fix for Google Translate top bar pushing content down */
+            top: 0 !important;
         }
 
         /* --- 2. TYPOGRAPHY --- */
@@ -37,7 +39,7 @@
         .navbar {
             background-color: var(--primary);
             color: var(--text-light);
-            padding: 0.8rem 2%; /* Reduced padding to give more space */
+            padding: 0.8rem 2%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -73,9 +75,35 @@
             white-space: nowrap;
         }
 
-        /* RIGHT SIDE - Zoom & Hamburger Only */
+        /* RIGHT SIDE - Lang, Zoom & Hamburger */
         .nav-right { display: flex; align-items: center; gap: 10px; z-index: 2; }
         
+        /* Language Dropdown Styling */
+        #google_translate_element {
+            margin-right: 5px;
+        }
+        .goog-te-gadget-simple {
+            background-color: rgba(255,255,255,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+            padding: 5px 10px !important;
+            border-radius: 20px !important;
+            line-height: 20px !important;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .goog-te-gadget-simple span {
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 0.9rem !important;
+        }
+        .goog-te-gadget-simple img {
+            display: none !important; /* Hide Google icon */
+        }
+        
+        /* Hide the annoying Google Top Bar */
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+        body { position: static !important; top:0px !important; }
+
         .zoom-btn {
             background: rgba(255,255,255,0.2);
             border: 1px solid rgba(255,255,255,0.3);
@@ -197,24 +225,21 @@
         .footer-links a { color: #ccc; margin: 0 10px; text-decoration: none; }
         .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.8rem; color: #ccc; }
 
-        /* --- 9. RESPONSIVENESS FIXES (CRITICAL) --- */
-        /* Hides tagline on Tablet/Small Laptop to prevent overlap */
+        /* --- 9. RESPONSIVENESS FIXES --- */
         @media (max-width: 1050px) {
             .nav-center { display: none; }
         }
 
         @media (max-width: 768px) {
-            .college-name { font-size: 0.9rem; } /* Smaller name on mobile */
-            .welcome-text { display: none; } /* Hide welcome on mobile to save space */
-            
+            .college-name { font-size: 0.9rem; }
+            .welcome-text { display: none; }
             .hero h1 { font-size: 1.8rem; }
             .hero-admission { font-size: 1.1rem; }
             .hero-streams { font-size: 1.2rem; }
-            
             .btn-group { flex-direction: column; width: 100%; }
             .btn { width: 100%; text-align: center; }
-            
             .contact-grid { grid-template-columns: 1fr; }
+            #google_translate_element { display: none; } /* Hide translate on very small screens if crowded */
         }
     </style>
 </head>
@@ -222,20 +247,20 @@
 
     <!-- NAVBAR -->
     <nav class="navbar">
-        <!-- LEFT: Logo + Name + Welcome -->
         <div class="nav-left">
             <img src="logo.png" alt="College Logo"> 
             <span class="college-name">RSDC AMS INDP PU</span>
             <span class="welcome-text">| Welcome</span>
         </div>
 
-        <!-- CENTER: Tagline (Hidden on small screens) -->
         <div class="nav-center">
             <div class="tagline-bubble">NEVER STOP LEARNING</div>
         </div>
 
-        <!-- RIGHT: Zoom & Hamburger ONLY (No text links!) -->
         <div class="nav-right">
+            <!-- LANGUAGE SWITCHER -->
+            <div id="google_translate_element"></div>
+
             <button class="zoom-btn" onclick="adjustZoom(-1)">A-</button>
             <button class="zoom-btn" onclick="adjustZoom(1)">A+</button>
             <button class="hamburger" onclick="toggleMenu()">☰</button>
@@ -421,8 +446,20 @@
     </footer>
 
     <!-- JAVASCRIPT -->
+    <script type="text/javascript">
+        // 1. Google Translate Init
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,kn,hi', // English, Kannada, Hindi
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script>
-        // 1. Zoom Logic (Fixed for Global Zoom)
+        // 2. Zoom Logic
         let currentZoom = 1;
         function adjustZoom(direction) {
             const root = document.documentElement;
@@ -430,9 +467,9 @@
             else if (direction === -1 && currentZoom > 0.8) currentZoom -= 0.1;
             root.style.fontSize = (currentZoom * 16) + 'px'; // Base 16px
         }
-        // 2. Mobile Menu
+        // 3. Mobile Menu
         function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
-        // 3. Accordion
+        // 4. Accordion
         function toggleAccordion(element) {
             const parent = element.parentElement;
             const content = parent.querySelector('.course-content');
@@ -445,7 +482,7 @@
             parent.classList.toggle('course-active');
             content.style.maxHeight = parent.classList.contains('course-active') ? content.scrollHeight + "px" : null;
         }
-        // 4. Scroll Animation
+        // 5. Scroll Animation
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.1 });
