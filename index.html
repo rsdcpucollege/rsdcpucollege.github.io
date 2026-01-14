@@ -12,6 +12,8 @@
             --accent: #f7f7fb;        
             --text-dark: #1a1a1a;
             --text-light: #ffffff;
+            --glow: 0 10px 20px rgba(31, 61, 43, 0.3);
+            --transition: all 0.3s ease;
             --font-main: 'Segoe UI', Arial, sans-serif;
             --spacing-section: 80px;
         }
@@ -19,58 +21,115 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         
+        /* 
+           ZOOM STRATEGY: 
+           The root font-size controls the "zoomable" content (rem units).
+           The Navbar uses fixed 'px' units so it ignores the zoom.
+        */
         body {
             font-family: var(--font-main);
             background-color: var(--secondary);
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
+            top: 0 !important; /* Google Translate Fix */
         }
 
-        /* --- 2. COMPONENTS --- */
-        .btn {
-            padding: 12px 35px; border-radius: 50px; text-decoration: none; font-weight: 600;
-            transition: 0.3s ease; border: none; cursor: pointer; font-size: 1.1rem; display: inline-block;
-        }
-        .btn-primary { background-color: var(--secondary); color: var(--primary); }
-        .btn-outline { background-color: transparent; border: 2px solid white; color: white; }
-        .btn-refer { background-color: #ffd700; color: #1f3d2b; } 
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        /* --- 2. TYPOGRAPHY --- */
+        h1, h2, h3 { font-weight: 700; color: var(--primary); margin-bottom: 1rem; }
+        h4, h5 { font-weight: 600; }
+        p { font-weight: 400; margin-bottom: 1rem; }
 
-        /* --- 3. NAVBAR --- */
+        /* --- 3. NAVBAR (FIXED SIZES - WON'T ZOOM) --- */
         .navbar {
             background-color: var(--primary);
             color: var(--text-light);
             padding: 0 3%;
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); height: 90px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            height: 90px; /* Made Taller */
         }
+
         .nav-left { display: flex; align-items: center; gap: 15px; z-index: 2; }
-        .nav-left img { height: 55px; width: auto; }
-        .college-name { font-weight: bold; font-size: 24px; white-space: nowrap; }
-        .welcome-text { font-size: 18px; font-weight: 500; color: #e0e0e0; white-space: nowrap; }
         
-        .nav-center { position: absolute; left: 50%; transform: translateX(-50%); z-index: 0; }
-        .tagline-bubble {
-            background-color: white; color: var(--primary); padding: 8px 30px;
-            border-radius: 50px; font-weight: 800; font-style: italic; font-size: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2); white-space: nowrap;
+        /* Fixed PX sizes to ignore Zoom */
+        .nav-left img { height: 55px; width: auto; } /* Bigger Logo */
+        .college-name { font-weight: bold; font-size: 24px; white-space: nowrap; } /* Bigger Name */
+        .welcome-text { font-size: 18px; font-weight: 500; color: #e0e0e0; white-space: nowrap; } /* Bigger Welcome */
+
+        /* CENTER TAGLINE */
+        .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0; 
         }
-        
+
+        .tagline-bubble {
+            background-color: white;
+            color: var(--primary);
+            padding: 8px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-style: italic;
+            font-size: 20px; /* Bigger Tagline */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        /* RIGHT SIDE */
         .nav-right { display: flex; align-items: center; gap: 15px; z-index: 2; }
+        
+        /* Language Widget Container */
+        #google_translate_element {
+            display: inline-block;
+            margin-right: 10px;
+            min-width: 100px; /* Ensure space is reserved */
+        }
+
+        /* Custom Google Translate Styling */
+        .goog-te-gadget-simple {
+            background-color: rgba(255,255,255,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.5) !important;
+            padding: 8px 12px !important;
+            border-radius: 8px !important;
+        }
+        .goog-te-gadget-simple span {
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 16px !important;
+        }
+        .goog-te-gadget-simple img { display: none !important; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; }
+
         .zoom-btn {
-            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
-            color: white; width: 42px; height: 42px; border-radius: 50%;
-            cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            width: 42px; height: 42px; /* Bigger Buttons */
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold; font-size: 16px;
+            transition: var(--transition);
         }
         .zoom-btn:hover { background: white; color: var(--primary); }
-        .hamburger { font-size: 2.5rem; cursor: pointer; background: none; border: none; color: white; padding: 5px; display: flex; align-items: center; }
+
+        .hamburger {
+            font-size: 2.5rem; /* Bigger Hamburger */
+            cursor: pointer; background: none; border: none; color: white;
+            padding: 5px; display: flex; align-items: center;
+        }
 
         /* MENU OVERLAY */
         .nav-menu-overlay {
             position: fixed; top: 0; right: -100%; width: 300px; height: 100vh;
-            background: var(--primary); box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            background: var(--primary);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
             padding: 80px 30px; transition: 0.4s ease; z-index: 999;
         }
         .nav-menu-overlay.active { right: 0; }
@@ -79,10 +138,12 @@
             color: white; text-decoration: none; font-size: 1.2rem; font-weight: 600;
             border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: block;
         }
-        .admin-link { color: #ffd700 !important; border-bottom: 1px solid #ffd700 !important; }
-        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 2.5rem; background: none; border: none; color: white; cursor: pointer; }
+        .close-btn {
+            position: absolute; top: 20px; right: 20px; font-size: 2.5rem;
+            background: none; border: none; color: white; cursor: pointer;
+        }
 
-        /* --- 4. HERO SECTION --- */
+        /* --- 4. HERO SECTION (Zoomable) --- */
         .hero {
             position: relative; height: 90vh;
             background: linear-gradient(rgba(31, 61, 43, 0.85), rgba(31, 61, 43, 0.7)), url('college.jpg');
@@ -90,152 +151,131 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; color: white; padding: 20px;
         }
-        .hero h1 { font-size: 3rem; color: white; margin-bottom: 0.5rem; line-height: 1.2; font-weight: 700; }
+        .hero h1 { font-size: 3rem; color: white; margin-bottom: 0.5rem; line-height: 1.2; }
         .hero-admission { font-size: 1.5rem; font-weight: 300; margin-bottom: 1rem; color: #e0e0e0; }
         .hero-streams {
             font-size: 1.8rem; margin-bottom: 1.5rem; letter-spacing: 2px; font-weight: 700;
             background: rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 10px;
         }
-        .btn-group { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+        .btn-group { display: flex; gap: 20px; margin-top: 10px; }
+        .btn {
+            padding: 12px 35px; border-radius: 50px; text-decoration: none; font-weight: 600;
+            transition: var(--transition); border: none; cursor: pointer; font-size: 1.1rem; display: inline-block;
+        }
+        .btn-primary { background-color: var(--secondary); color: var(--primary); }
+        .btn-outline { background-color: transparent; border: 2px solid white; color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        /* --- 5. MODAL FORMS --- */
-        .modal {
-            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;
-        }
-        .modal.show { opacity: 1; }
-        .modal-content {
-            background-color: white; padding: 40px; border-radius: 20px; width: 90%; max-width: 500px;
-            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto;
-            transform: translateY(20px); transition: transform 0.3s ease;
-        }
-        .modal.show .modal-content { transform: translateY(0); }
-        .modal-header { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 20px; text-align: center; }
-        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #999; }
-        
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 0.9rem; }
-        .form-input, .form-select {
-            width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;
-            font-family: var(--font-main); transition: 0.2s;
-        }
-        .form-input:focus { border-color: var(--primary); outline: none; }
-        .form-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; }
-        .form-btn:hover { background-color: #162e20; }
-        .required { color: red; }
-
-        /* --- 6. SECTIONS --- */
+        /* --- 5. COMMON STYLES --- */
         section { padding: var(--spacing-section) 5%; }
-        .section-title { text-align: center; margin-bottom: 50px; font-size: 2.2rem; position: relative; font-weight: 700; }
-        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--primary); margin: 10px auto; border-radius: 2px; }
-        
+        .section-title {
+            text-align: center; margin-bottom: 50px; font-size: 2.2rem; position: relative;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 60px; height: 4px;
+            background: var(--primary); margin: 10px auto; border-radius: 2px;
+        }
+        .card {
+            background: white; border-radius: 20px; padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition);
+            height: 100%; text-align: left;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: var(--glow); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- 6. GRID LAYOUTS --- */
         .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left; }
         .highlight-card { text-align: center; border: 1px solid #eee; }
         .highlight-icon { font-size: 2.5rem; margin-bottom: 15px; color: var(--primary); }
-        
-        /* Courses */
         .course-container { max-width: 800px; margin: 0 auto; }
-        .course-item { background: white; margin-bottom: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden; }
-        .course-header { padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: white; transition: 0.3s; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        
+        /* --- 7. COURSES --- */
+        .course-item {
+            background: white; margin-bottom: 20px; border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden;
+        }
+        .course-header {
+            padding: 20px 25px; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            background: white; transition: var(--transition);
+        }
         .course-header:hover { background: var(--accent); }
         .course-header h3 { margin: 0; font-size: 1.5rem; }
-        .course-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; padding: 0 25px; background: var(--accent); }
+        .course-arrow { font-size: 1.2rem; transition: transform 0.3s ease; }
+        .course-content {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out;
+            padding: 0 25px; background: var(--accent);
+        }
         .course-content-inner { padding: 20px 0; }
+        .course-active .course-arrow { transform: rotate(180deg); }
         .course-active .course-header { border-bottom: 1px solid #eee; }
 
-        /* Contact & Footer */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        /* --- 8. CONTACT & FOOTER --- */
         .contact-info { display: flex; flex-direction: column; gap: 20px; }
-        .contact-btn { display: flex; align-items: center; gap: 15px; padding: 15px 20px; background: white; border-radius: 15px; text-decoration: none; color: var(--text-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: 0.3s; }
-        .contact-btn:hover { transform: translateX(10px); color: var(--primary); }
+        .contact-btn {
+            display: flex; align-items: center; gap: 15px; padding: 15px 20px;
+            background: white; border-radius: 15px; text-decoration: none;
+            color: var(--text-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: var(--transition);
+        }
+        .contact-btn:hover { transform: translateX(10px); box-shadow: var(--glow); color: var(--primary); }
         .map-container { height: 100%; min-height: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         iframe { width: 100%; height: 100%; border: 0; }
-
-        /* --- 7. GALLERY SECTION --- */
-        #gallery { background-color: var(--primary); color: white; padding: 60px 0; overflow: hidden; }
-        #gallery .section-title { color: white; }
-        #gallery .section-title::after { background: white; }
         
-        .gallery-container {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            padding: 20px 0;
-        }
-        .gallery-track {
-            display: flex;
-            gap: 20px;
-            animation: scroll 30s linear infinite;
-            width: max-content;
-        }
-        /* Pause on hover */
-        .gallery-track:hover { animation-play-state: paused; }
-
-        .gallery-item {
-            height: 250px;
-            width: 350px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            flex-shrink: 0;
-            background: rgba(255,255,255,0.1);
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.3s;
-        }
-        .gallery-item:hover img { transform: scale(1.1); }
-        .loading-text { text-align: center; width: 100%; padding: 20px; color: rgba(255,255,255,0.7); }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } 
-        }
-
-        /* Footer */
-        footer { background: #162e20; color: white; padding: 40px 5%; text-align: center; }
+        footer { background: var(--primary); color: white; padding: 40px 5%; text-align: center; }
         .footer-content { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
         .footer-links a { color: #ccc; margin: 0 10px; text-decoration: none; }
         .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.9rem; color: #ccc; }
 
-        /* Responsive */
-        @media (max-width: 1200px) { .nav-center { display: none; } }
+        /* --- 9. RESPONSIVENESS --- */
+        @media (max-width: 1200px) {
+            .nav-center { display: none; } /* Hide tagline sooner for new big buttons */
+        }
+
         @media (max-width: 768px) {
             .navbar { height: 70px; padding: 0 5%; }
             .college-name { font-size: 18px; }
             .nav-left img { height: 40px; }
             .welcome-text { display: none; }
+            
             .hero h1 { font-size: 1.8rem; }
             .hero-admission { font-size: 1.1rem; }
             .hero-streams { font-size: 1.2rem; }
-            .btn-group { flex-direction: column; width: 100%; align-items: center; }
+            
+            .btn-group { flex-direction: column; width: 100%; }
             .btn { width: 100%; text-align: center; }
+            
             .contact-grid { grid-template-columns: 1fr; }
-            .gallery-item { width: 280px; height: 200px; }
+            #google_translate_element { display: none; } /* Too small for translate */
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR (Fixed px sizes) -->
     <nav class="navbar">
         <div class="nav-left">
             <img src="logo.png" alt="College Logo"> 
             <span class="college-name">RSDC AMS INDP PU</span>
-            <span class="welcome-text">| WELCOME...!</span>
+            <span class="welcome-text">| Welcome</span>
         </div>
-        <div class="nav-center"><div class="tagline-bubble">NEVER STOP LEARNING</div></div>
+
+        <div class="nav-center">
+            <div class="tagline-bubble">NEVER STOP LEARNING</div>
+        </div>
+
         <div class="nav-right">
+            <!-- Language Switcher -->
+            <div id="google_translate_element"></div>
+
             <button class="zoom-btn" onclick="adjustZoom(-1)">A-</button>
             <button class="zoom-btn" onclick="adjustZoom(1)">A+</button>
             <button class="hamburger" onclick="toggleMenu()">☰</button>
         </div>
     </nav>
 
-    <!-- MENU -->
+    <!-- MENU OVERLAY -->
     <div class="nav-menu-overlay" id="navMenu">
         <button class="close-btn" onclick="toggleMenu()">×</button>
         <ul class="nav-links">
@@ -243,329 +283,195 @@
             <li><a href="#courses" onclick="toggleMenu()">Courses</a></li>
             <li><a href="#about" onclick="toggleMenu()">About</a></li>
             <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
-            <li><a href="#" onclick="toggleMenu(); openModal('applyModal');" style="color: #fbfbea;">Apply Now</a></li>
-            <!-- ADMIN LINK: USES YOUR DRIVE FOLDER -->
-            <li><a href="https://drive.google.com/drive/folders/1EdpuD6L7flYfeHT9KIDrh-ONvN4KmLAI" target="_blank" class="admin-link">Manage Photos (Admin)</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfj_jfTp-aXzwqJN2dMpSBsXCw4aZBARPUIY6ZJJTLWNMprBw/viewform" target="_blank" style="color: #fbfbea;">Apply Now</a></li>
         </ul>
     </div>
 
-    <!-- HERO -->
+    <!-- CONTENT WRAPPER -->
     <header class="hero" id="home">
         <h1>RSDC AMS INDP PU COLLEGE</h1>
         <p class="hero-admission">Admissions Open 2026-27 for</p>
         <p class="hero-streams">HEBA • SEBA • CEBA</p>
         <p class="tagline" style="margin-bottom: 30px; font-size: 1.1rem; color: #fbfbea;">Quality Education and Expert Instruction at an Affordable Fee</p>
         <div class="btn-group">
-            <button onclick="openModal('applyModal')" class="btn btn-primary">Apply Now</button>
-            <button onclick="openModal('referModal')" class="btn btn-refer">Refer a Friend</button>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfj_jfTp-aXzwqJN2dMpSBsXCw4aZBARPUIY6ZJJTLWNMprBw/viewform" target="_blank" class="btn btn-primary">Apply Now</a>
             <a href="#contact" class="btn btn-outline">Contact Us</a>
         </div>
     </header>
 
-    <!-- HIGHLIGHTS -->
     <section id="highlights">
         <div class="highlights-grid">
-            <div class="card highlight-card reveal"><div class="highlight-icon">🎓</div><h3>Best Education</h3><p>High quality education with low fee structure.</p></div>
-            <div class="card highlight-card reveal"><div class="highlight-icon">🏅</div><h3>Merit Concession</h3><p>Special fee concessions for students with high SSLC percentage.</p></div>
-            <div class="card highlight-card reveal"><div class="highlight-icon">🤝</div><h3>Student Support</h3><p>Dedicated support for Single Parent Students.</p></div>
+            <div class="card highlight-card reveal">
+                <div class="highlight-icon">🎓</div>
+                <h3>Best Education</h3>
+                <p>High quality education with low fee structure.</p>
+            </div>
+            <div class="card highlight-card reveal">
+                <div class="highlight-icon">🏅</div>
+                <h3>Merit Concession</h3>
+                <p>Special fee concessions for students with high SSLC percentage.</p>
+            </div>
+            <div class="card highlight-card reveal">
+                <div class="highlight-icon">🤝</div>
+                <h3>Student Support</h3>
+                <p>Dedicated support for Single Parent Students.</p>
+            </div>
         </div>
     </section>
 
-    <!-- COURSES -->
     <section id="courses" style="background-color: white;">
         <h2 class="section-title">Our Courses</h2>
         <div class="course-container">
+            <!-- HEBA -->
             <div class="course-item reveal">
-                <div class="course-header" onclick="toggleCourse(this)"><h3>HEBA (Arts)</h3><span>▼</span></div>
-                <div class="course-content"><div class="course-content-inner"><p>History, Economics, Business Studies, Accountancy.</p></div></div>
+                <div class="course-header" onclick="toggleAccordion(this)">
+                    <h3>HEBA</h3>
+                    <span class="course-arrow">▼</span>
+                </div>
+                <div class="course-content">
+                    <div class="course-content-inner">
+                        <h4>History • Economics • Business • Accountancy</h4>
+                        <br>
+                        <p><strong>What is HEBA?</strong><br>A commerce stream combined with social sciences (History/Economics) for strong conceptual clarity.</p>
+                        <p><strong>Who should choose?</strong><br>• Interested in Civil Services, Law, Teaching, Journalism<br>• Enjoy theory and understanding society<br>• Prefer less mathematics</p>
+                        <p><strong>Career Opportunities:</strong><br>Civil Services, Law, Journalism, Teaching, Public Policy.</p>
+                    </div>
+                </div>
             </div>
+            <!-- SEBA -->
             <div class="course-item reveal">
-                <div class="course-header" onclick="toggleCourse(this)"><h3>SEBA (Commerce)</h3><span>▼</span></div>
-                <div class="course-content"><div class="course-content-inner"><p>Statistics, Economics, Business Studies, Accountancy.</p></div></div>
+                <div class="course-header" onclick="toggleAccordion(this)">
+                    <h3>SEBA</h3>
+                    <span class="course-arrow">▼</span>
+                </div>
+                <div class="course-content">
+                    <div class="course-content-inner">
+                        <h4>Statistics • Economics • Business • Accountancy</h4>
+                        <br>
+                        <p><strong>What is SEBA?</strong><br>A data-oriented stream focusing on numbers, analysis, and logical thinking.</p>
+                        <p><strong>Who should choose?</strong><br>• Good at Mathematics<br>• Aiming for CA, CFA, Actuarial Science<br>• Interested in Data Analysis & Finance</p>
+                        <p><strong>Career Opportunities:</strong><br>Chartered Accountant (CA), Data Analyst, Economist, Stock Market Analyst.</p>
+                    </div>
+                </div>
             </div>
+            <!-- CEBA -->
             <div class="course-item reveal">
-                <div class="course-header" onclick="toggleCourse(this)"><h3>CEBA (Commerce)</h3><span>▼</span></div>
-                <div class="course-content"><div class="course-content-inner"><p>Computer Science, Economics, Business Studies, Accountancy.</p></div></div>
+                <div class="course-header" onclick="toggleAccordion(this)">
+                    <h3>CEBA</h3>
+                    <span class="course-arrow">▼</span>
+                </div>
+                <div class="course-content">
+                    <div class="course-content-inner">
+                        <h4>Comp Science • Economics • Business • Accountancy</h4>
+                        <br>
+                        <p><strong>What is CEBA?</strong><br>Modern commerce stream integrated with technology for the digital economy.</p>
+                        <p><strong>Who should choose?</strong><br>• Interested in Tech + Business<br>• Planning careers in IT, Fintech, Digital Marketing<br>• Comfortable with computers</p>
+                        <p><strong>Career Opportunities:</strong><br>Fintech Professional, Business Analyst, Digital Marketer, E-Commerce Manager.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT -->
     <section id="about">
-        <h2 class="section-title">About Us</h2>
-        <div class="card reveal">
-            <p>RSDC AMS INDP PU College is committed to providing high-quality pre-university education. Our experienced faculty and student-centric approach ensure that every learner achieves their full potential.</p>
+        <h2 class="section-title">About Our College</h2>
+        <div class="card about-content reveal">
+            <p>RSDC AMS INDP PU College is a premier institution located in Hongasandra, Begur Road, Bangalore. We are dedicated to nurturing young minds and preparing them for successful careers in commerce and management.</p>
+            <p>We provide a disciplined, student-friendly learning environment that combines strong academic foundations with moral values and personal development.</p>
+            <br>
+            <h4>Why Choose Us?</h4>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Academic Excellence</li>
+                <li>Student Development</li>
+                <li>Discipline & Values</li>
+                <li>Proven Results</li>
+            </ul>
         </div>
     </section>
 
-        <!-- CONTACT -->
-    <section id="contact" style="background-color: white;">
+    <section id="contact">
         <h2 class="section-title">Contact Us</h2>
         <div class="contact-grid">
             <div class="contact-info reveal">
-                <!-- Phone -->
-                <a href="tel:+919164637818" class="contact-btn">
-                    <!-- SVG Icon: Phone -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--primary)" xmlns="http://www.w3.org/2000/svg"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.51 1.87c-2.79-1.44-5.09-3.75-6.54-6.54l1.88-1.5c.27-.27.35-.66.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-                    <span style="font-weight: bold;">Call Us</span>
+                <a href="https://maps.app.goo.gl/mTKTYSRgTqKBeESGA" target="_blank" class="contact-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 48 48"><path fill="#4caf50" d="M24 4c-7.73 0-14 6.27-14 14 0 10.5 14 26 14 26s14-15.5 14-26c0-7.73-6.27-14-14-14zm0 19c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                    <div><h5>Visit Us</h5><p style="margin:0; font-size:0.9rem;">Hongasandra, Begur Road, Bangalore</p></div>
                 </a>
-                
-                <!-- Email -->
-                <a href="mailto:rsdcamsindppucollege@gmail.com" class="contact-btn">
-                    <!-- SVG Icon: Mail -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#EA4335" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    <span style="font-weight: bold;">Mail Us</span>
+                <a href="tel:+919845070240" class="contact-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#2196f3"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                    <div><h5>Call Us</h5><p style="margin:0; font-size:0.9rem;">+91 9845070240</p></div>
                 </a>
-                
-                <!-- WhatsApp -->
                 <a href="https://wa.me/919164637818" target="_blank" class="contact-btn">
-                    <!-- SVG Icon: WhatsApp -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M12.031 2C6.509 2 2 6.492 2 12.015c0 1.768.462 3.498 1.336 5.03L2.013 22l5.09-1.31c1.513.81 3.22 1.325 5.028 1.325 5.522 0 10.031-4.492 10.031-10.015 0-5.522-4.509-10.014-10.131-10.014zm5.836 14.15l-2.09.52c-.52.13-.53-.29-2.06-1.04-1.53-.75-2.61-2.14-3.15-2.89-.54-.75-1.42-1.85-.56-2.91.56-.69.83-.8.67-1.46-.17-.66-1.5-3.35-2.03-3.26-.53.08-1.02.43-1.02 1.11 0 .68.32 1.94 2.29 4.88 1.96 2.94 4.5 4.35 6.47 4.79.62.14 1.25.13 1.63.09.95-.1 1.83-.75 2.06-1.46.22-.72.08-1.41-.12-1.53z"/></svg>
-                    <span style="font-weight: bold;">Chat with Us</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="#25D366"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.592 2.654-.696c1.001.54 1.973.869 2.806.869 3.181 0 5.767-2.587 5.767-5.766.001-3.182-2.585-5.767-5.767-5.767zm0 10.43c-.878 0-1.745-.259-2.483-.751l-.178-.118-1.571.412.42-1.531-.115-.183c-.569-.904-.868-1.956-.867-3.03.001-3.182 2.587-5.768 5.768-5.768 3.182 0 5.767 2.586 5.767 5.768 0 3.181-2.586 5.767-5.767 5.767z"/></svg>
+                    <div><h5>WhatsApp</h5><p style="margin:0; font-size:0.9rem;">+91 9164637818</p></div>
                 </a>
-                
-                <!-- Instagram -->
+                <a href="mailto:rsdcamsindppucollege@gmail.com" class="contact-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#EA4335" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <div><h5>Email Us</h5><p style="margin:0; font-size:0.9rem;">rsdcamsindppucollege@gmail.com</p></div>
+                </a>
                 <a href="https://instagram.com/rsdcpu_official" target="_blank" class="contact-btn">
-                    <!-- SVG Icon: Instagram -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#E1306C" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    <span style="font-weight: bold;">Follow & DM Us</span>
-                </a>
-                
-                <!-- Location -->
-                <a href="https://maps.app.goo.gl/HCTuX1XydcpKMasU8" target="_blank" class="contact-btn">
-                    <!-- SVG Icon: Location -->
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#4285F4" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                    <span style="font-weight: bold;">Locate Us</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><defs><linearGradient id="insta-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f09433;stop-opacity:1"/><stop offset="25%" style="stop-color:#e6683c;stop-opacity:1"/><stop offset="50%" style="stop-color:#dc2743;stop-opacity:1"/><stop offset="75%" style="stop-color:#cc2366;stop-opacity:1"/><stop offset="100%" style="stop-color:#bc1888;stop-opacity:1"/></linearGradient></defs><path fill="url(#insta-gradient)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-8 3.999 3.999 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    <div><h5>Instagram</h5><p style="margin:0; font-size:0.9rem;">@rsdcpu_official</p></div>
                 </a>
             </div>
-            
             <div class="map-container reveal">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3864.887640306387!2d75.5649983148408!3d13.93516599022646!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbbb96362d27e29%3A0x6280436660655383!2sShivamogga%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1642145678901!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.026417724396!2d77.63297537592965!3d12.906013216315808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae149a655252b9%3A0x633d289456073163!2sRSDC%20AMS%20INDP%20PU%20COLLEGE!5e0!3m2!1sen!2sin!4v1709664587321!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
-    <!-- GALLERY SECTION (AUTO SCROLL) -->
-    <section id="gallery">
-        <h2 class="section-title">Campus Life</h2>
-        <div class="gallery-container">
-            <div class="gallery-track" id="galleryTrack">
-                <div class="loading-text">Loading Photos...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
+            <h3>RSDC AMS INDP PU COLLEGE</h3>
+            <p>Hongasandra, Begur Road, Bangalore</p>
             <div class="footer-links">
-                <a href="#home">Home</a>
-                <a href="#courses">Courses</a>
-                <a href="#contact">Contact</a>
+                <a href="#home">Home</a>|<a href="#courses">Courses</a>|<a href="https://docs.google.com/forms/d/e/1FAIpQLSfj_jfTp-aXzwqJN2dMpSBsXCw4aZBARPUIY6ZJJTLWNMprBw/viewform" target="_blank">Admissions</a>
             </div>
-            <p>RSDC AMS INDP PU COLLEGE, Hongasandra, Bangalore</p>
         </div>
-        <div class="copyright">© 2026 All Rights Reserved.</div>
+        <div class="copyright">&copy; 2026 RSDC AMS INDP PU College. All Rights Reserved.</div>
     </footer>
 
-    <!-- MODALS -->
-    <!-- Apply Modal -->
-    <div id="applyModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('applyModal')">&times;</span>
-            <div class="modal-header">Admission Application</div>
-            <form id="admissionForm" onsubmit="submitForm(event, 'admissionForm', 'admission')">
-                <div class="form-group"><label class="form-label">Student Name <span class="required">*</span></label><input type="text" name="Student Name" class="form-input" required></div>
-                <div class="form-group"><label class="form-label">Student Mobile No</label><input type="tel" name="Student Mobile" class="form-input"></div>
-                <div class="form-group"><label class="form-label">Parent Name <span class="required">*</span></label><input type="text" name="Parent Name" class="form-input" required></div>
-                <div class="form-group"><label class="form-label">Parent Mobile No <span class="required">*</span></label><input type="tel" name="Parent Mobile" class="form-input" required></div>
-                <div class="form-group"><label class="form-label">Course <span class="required">*</span></label>
-                    <select name="Course" class="form-select" required>
-                        <option value="">Select Course</option>
-                        <option value="HEBA">HEBA (Arts)</option>
-                        <option value="SEBA">SEBA (Commerce)</option>
-                        <option value="CEBA">CEBA (Commerce)</option>
-                    </select>
-                </div>
-                <!-- OPTIONAL SSLC -->
-                <div class="form-group"><label class="form-label">SSLC Percentage (Optional)</label><input type="text" name="SSLC %" class="form-input"></div>
-                
-                <div class="form-group"><label class="form-label">Date of Birth</label><input type="date" name="DOB" class="form-input"></div>
-                <div class="form-group"><label class="form-label">Gender</label>
-                    <select name="Gender" class="form-select">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-                <div class="form-group"><label class="form-label">Previous School</label><input type="text" name="School" class="form-input"></div>
-                <div class="form-group"><label class="form-label">Email ID</label><input type="email" name="Email" class="form-input"></div>
-                <div class="form-group"><label class="form-label">Address</label><textarea name="Address" class="form-input" rows="3"></textarea></div>
-                <button type="submit" class="form-btn">Submit Application</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Refer Modal -->
-    <div id="referModal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('referModal')">&times;</span>
-            <div class="modal-header">Refer a Friend</div>
-            <form id="referralForm" onsubmit="submitForm(event, 'referralForm', 'referral')">
-                <div class="form-group"><label class="form-label">Your Name (Referrer) <span class="required">*</span></label><input type="text" name="Referrer Name" class="form-input" required></div>
-                <div class="form-group"><label class="form-label">Your Mobile No <span class="required">*</span></label><input type="tel" name="Referrer Mobile" class="form-input" required></div>
-                
-                <!-- MANDATORY RELATION -->
-                <div class="form-group"><label class="form-label">Relation to Student <span class="required">*</span></label><input type="text" name="Relation" class="form-input" required></div>
-                
-                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-                <div class="form-group"><label class="form-label">Student Name (Candidate) <span class="required">*</span></label><input type="text" name="Candidate Name" class="form-input" required></div>
-                <div class="form-group"><label class="form-label">Student Mobile No</label><input type="tel" name="Candidate Mobile" class="form-input"></div>
-                <div class="form-group"><label class="form-label">Interested Course</label>
-                    <select name="Course" class="form-select">
-                        <option value="HEBA">HEBA</option>
-                        <option value="SEBA">SEBA</option>
-                        <option value="CEBA">CEBA</option>
-                    </select>
-                </div>
-                <div class="form-group"><label class="form-label">Student's School</label><input type="text" name="Candidate School" class="form-input"></div>
-                <button type="submit" class="form-btn">Submit Referral</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // --- 8. YOUR SCRIPT URL IS ALREADY HERE ---
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxWdZzcBn78HLNB5emto6nWh1aTjI29nAXJIF72SKeXkenadxJAc7Vf7DPhJztoUJg/exec';
-
-        // Zoom Logic
-        let currentZoom = 1;
-        function adjustZoom(change) {
-            currentZoom += change * 0.1;
-            if (currentZoom < 0.8) currentZoom = 0.8;
-            if (currentZoom > 1.5) currentZoom = 1.5;
-            document.body.style.zoom = currentZoom;
-        }
-
-        // Menu Logic
-        function toggleMenu() {
-            document.getElementById('navMenu').classList.toggle('active');
-        }
-
-        // Modal Logic
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('show');
-            document.getElementById(modalId).style.display = 'flex';
-        }
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-            setTimeout(() => { document.getElementById(modalId).style.display = 'none'; }, 300);
-        }
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                closeModal(event.target.id);
-            }
-        }
-
-        // Accordion Logic
-        function toggleCourse(header) {
-            header.parentElement.classList.toggle('course-active');
-            let content = header.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-                header.querySelector('span').innerText = '▼';
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                header.querySelector('span').innerText = '▲';
-            }
-        }
-
-        // Scroll Animation
-        window.addEventListener('scroll', reveal);
-        function reveal() {
-            var reveals = document.querySelectorAll('.reveal');
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add('active');
-                    reveals[i].style.opacity = "1";
-                    reveals[i].style.transform = "translateY(0)";
-                }
-            }
-        }
-        document.querySelectorAll('.reveal').forEach(el => {
-            el.style.opacity = "0";
-            el.style.transform = "translateY(30px)";
-            el.style.transition = "all 0.6s ease";
-        });
-
-        // Form Submission
-        function submitForm(e, formId, type) {
-            e.preventDefault();
-            const form = document.getElementById(formId);
-            const btn = form.querySelector('button');
-            const originalText = btn.innerText;
-            
-            btn.innerText = 'Submitting...';
-            btn.disabled = true;
-
-            const formData = new FormData(form);
-            formData.append('formType', type);
-
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => response.json())
-                .then(response => {
-                    if (response.result === 'success') {
-                        alert("Submitted Successfully!");
-                        form.reset();
-                        closeModal(type === 'admission' ? 'applyModal' : 'referModal');
-                    } else {
-                        alert("Error! Please try again.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    alert("Submission failed. Check internet connection.");
-                })
-                .finally(() => {
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                });
-        }
-
-        // --- 9. GALLERY FETCH LOGIC ---
-        document.addEventListener('DOMContentLoaded', loadGallery);
-
-        function loadGallery() {
-            const track = document.getElementById('galleryTrack');
-            
-            fetch(scriptURL + '?action=getImages')
-                .then(response => response.json())
-                .then(images => {
-                    if (!images || images.length === 0) {
-                        track.innerHTML = '<div class="loading-text">No photos found in Drive folder.</div>';
-                        return;
-                    }
-
-                    let html = '';
-                    // Create image cards
-                    images.forEach(img => {
-                        html += `
-                            <div class="gallery-item">
-                                <img src="${img.url}" alt="College Event" loading="lazy">
-                            </div>
-                        `;
-                    });
-
-                    // Duplicate for infinite scroll loop
-                    track.innerHTML = html + html; 
-                })
-                .catch(err => {
-                    console.error('Gallery Error:', err);
-                    track.innerHTML = '<div class="loading-text">Error loading photos.</div>';
-                });
+    <!-- JAVASCRIPT -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,kn,hi',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
         }
     </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        // 1. Zoom Logic (Global scale except Navbar)
+        let currentZoom = 1;
+        function adjustZoom(direction) {
+            const root = document.documentElement;
+            if (direction === 1 && currentZoom < 1.3) currentZoom += 0.1;
+            else if (direction === -1 && currentZoom > 0.8) currentZoom -= 0.1;
+            root.style.fontSize = (currentZoom * 16) + 'px'; 
+        }
+        // 2. Mobile Menu
+        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+        // 3. Accordion
+        function toggleAccordion(element) {
+            const parent = element.parentElement;
+            const content = parent.querySelector('.course-content');
+            document.querySelectorAll('.course-item').forEach(item => {
+                if (item !== parent) {
+                    item.classList.remove('course-active');
+                    item.querySelector('.course-content').style.maxHeight = null;
+                }
+            });
+            parent.classList.toggle('course-active');
+            content.style.maxHeight = parent.classList.contains('course-active') ? content.scrollHeight + "px" : null;
+        }
+        // 4. Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
-</html> 
+</html>  
