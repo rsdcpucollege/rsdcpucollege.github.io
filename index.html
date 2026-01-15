@@ -38,6 +38,25 @@
         .btn-outline { background-color: transparent; border: 2px solid white; color: white; }
         .btn-refer { background-color: #ffd700; color: #1f3d2b; } /* Gold color for Referral */
         .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .btn-gallery-unique {
+    display: inline-block;
+    background-color: #FBFBEA;
+    color: #1F3D2B;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 15px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.btn-gallery-unique:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    background-color: #fff;
+    color: #1F3D2B;
+}
 
         /* --- 3. NAVBAR --- */
         .navbar {
@@ -51,7 +70,7 @@
         .nav-left { display: flex; align-items: center; gap: 15px; z-index: 2; }
         .nav-left img { height: 55px; width: auto; }
         .college-name { font-weight: bold; font-size: 24px; white-space: nowrap; }
-        .welcome-text { font-size: 18px; font-weight: 500; color: #e0e0e0; white-space: nowrap; }
+        .welcome-text { font-size: 24px; font-weight: bold; color: #e0e0e0; white-space: nowrap; }
         
         .nav-center { position: absolute; left: 50%; transform: translateX(-50%); z-index: 0; }
         .tagline-bubble {
@@ -71,14 +90,19 @@
 
         /* MENU OVERLAY */
         .nav-menu-overlay {
-            position: fixed; top: 0; right: -100%; width: 300px; height: 100vh;
-            background: var(--primary); box-shadow: -5px 0 15px rgba(0,0,0,0.3);
-            padding: 80px 30px; transition: 0.4s ease; z-index: 999;
-        }
+    position: fixed; top: 0; right: -100%; width: 300px; height: 100vh;
+    background: var(--primary); 
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    padding: 120px 30px 40px 30px; /* CHANGED: 120px top padding pushes links down */
+    transition: 0.4s ease; z-index: 999;
+}
         .nav-menu-overlay.active { right: 0; }
         .nav-links { list-style: none; display: flex; flex-direction: column; gap: 20px; }
         .nav-links a {
-            color: white; text-decoration: none; font-size: 1.2rem; font-weight: 600;
+    color: white; /* Force white text */
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600
             border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: block;
         }
         .close-btn { position: absolute; top: 20px; right: 20px; font-size: 2.5rem; background: none; border: none; color: white; cursor: pointer; }
@@ -172,6 +196,154 @@
             .btn { width: 100%; text-align: center; }
             .contact-grid { grid-template-columns: 1fr; }
         }
+/* HAMBURGER ANIMATION */
+.hamburger {
+    display: flex; flex-direction: column; justify-content: space-between;
+    width: 35px; height: 25px; background: transparent; border: none;
+    cursor: pointer; z-index: 2000; /* Ensure it stays above the menu */
+}
+
+.hamburger .bar {
+    width: 100%; height: 3px; background-color: white;
+    border-radius: 2px; transition: all 0.3s ease-in-out;
+}
+
+/* Transform to X when active */
+.hamburger.active .bar:nth-child(1) { transform: translateY(11px) rotate(45deg); }
+.hamburger.active .bar:nth-child(2) { opacity: 0; }
+.hamburger.active .bar:nth-child(3) { transform: translateY(-11px) rotate(-45deg); }
+
+/* Unique Gallery Button Style */
+.btn-gallery-unique {
+    display: inline-block;
+    background-color: #FBFBEA; /* Light Cream Color */
+    color: #1F3D2B;            /* Dark Green Text */
+    font-weight: 700;          /* Bold Text */
+    font-size: 1.2rem;
+    padding: 15px 50px;
+    border-radius: 50px;       /* Pill Shape */
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Soft Shadow */
+    transition: all 0.3s ease;
+    border: 1px solid transparent; /* Optional border */
+}
+
+.btn-gallery-unique:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    background-color: #fff;    /* Slightly lighter on hover */
+    color: #1F3D2B;
+}
+
+/* --- SCROLL ANIMATION STYLES --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px); /* This makes it start 50px lower */
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);    /* This moves it up to normal position */
+}
+
+/* SAFE MENU ANIMATION */
+.nav-links li {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.4s ease forwards;
+}
+
+/* Only run animation when menu is open */
+.nav-menu-overlay.active .nav-links li {
+    opacity: 1; /* Force them to appear */
+    transform: translateX(0);
+}
+
+/* Stagger delays */
+.nav-menu-overlay.active .nav-links li:nth-child(1) { transition-delay: 0.1s; }
+.nav-menu-overlay.active .nav-links li:nth-child(2) { transition-delay: 0.2s; }
+.nav-menu-overlay.active .nav-links li:nth-child(3) { transition-delay: 0.3s; }
+.nav-menu-overlay.active .nav-links li:nth-child(4) { transition-delay: 0.4s; }
+.nav-menu-overlay.active .nav-links li:nth-child(5) { transition-delay: 0.5s; }
+.nav-menu-overlay.active .nav-links li:nth-child(6) { transition-delay: 0.6s; }
+
+/* LINK HOVER EFFECT */
+.nav-links a {
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #ffd700; /* Turns Yellow on Hover */
+    transform: translateX(10px); /* Moves slightly right */
+}
+
+/* Underline Animation */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #ffd700;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%; /* Line grows to full width */
+}
+
+/* SCROLLING ADMISSION NOTICE */
+.admissions-notice {
+    background-color: #ffffff; /* White Background */
+    color: #d90429;           /* Red Text */
+    font-weight: 800;
+    font-size: 1rem;          /* Compact Font Size */
+    padding: 8px 0;           /* Slim Padding */
+    border-radius: 50px;      /* Rounded Bubble */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    
+    /* Layout & Spacing */
+    display: inline-block;
+    max-width: 90%;           /* Dynamic width */
+    width: 300px;             /* Fixed width for consistent scroll look */
+    margin-bottom: 30px;      /* SPACE ADDED HERE (pushes streams down) */
+    
+    /* Scrolling Logic */
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    border: none;             /* NO RED BORDER */
+}
+
+/* MARQUEE TEXT ANIMATION */
+.admissions-notice span {
+    display: inline-block;
+    padding-left: 100%;      /* Start from far right */
+    animation: marquee 8s linear infinite; /* Smooth 8s scroll */
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(217, 4, 41, 0.3); }
+    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+}
+
+/* Responsive adjustment for mobile */
+@media (max-width: 768px) {
+    .admissions-notice {
+        font-size: 1.1rem;
+        padding: 10px 20px;
+    }
+}
     </style>
 </head>
 <body>
@@ -181,32 +353,51 @@
         <div class="nav-left">
             <img src="logo.png" alt="College Logo"> 
             <span class="college-name">RSDC COLLEGE</span>
-            <span class="welcome-text">| WELCOME...!</span>
+            <span class="welcome-text">| WELCOME !</span>
         </div>
         <div class="nav-center"><div class="tagline-bubble">NEVER STOP LEARNING</div></div>
         <div class="nav-right">
-            <button class="zoom-btn" onclick="adjustZoom(-1)">A-</button>
-            <button class="zoom-btn" onclick="adjustZoom(1)">A+</button>
-            <button class="hamburger" onclick="toggleMenu()">☰</button>
-        </div>
+    <!-- Zoom Buttons -->
+    <button class="zoom-btn" onclick="adjustZoom(-1)">A-</button>
+    <button class="zoom-btn" onclick="adjustZoom(1)">A+</button>
+    
+    <!-- Unique Menu Button (Hamburger) -->
+    <button class="hamburger" onclick="toggleMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+</div>
     </nav>
 
     <!-- MENU -->
     <div class="nav-menu-overlay" id="navMenu">
         <button class="close-btn" onclick="toggleMenu()">×</button>
         <ul class="nav-links">
-            <li><a href="#home" onclick="toggleMenu()">Home</a></li>
-            <li><a href="#courses" onclick="toggleMenu()">Courses</a></li>
-            <li><a href="#about" onclick="toggleMenu()">About</a></li>
-            <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
-            <li><a href="#" onclick="toggleMenu(); openModal('applyModal');" style="color: #fbfbea;">Apply Now</a></li>
-        </ul>
+    <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+    <li><a href="#courses" onclick="toggleMenu()">Courses</a></li>
+    <li><a href="gallery.html" onclick="toggleMenu()">Gallery</a></li> <!-- Added Gallery Link -->
+    <li><a href="#about" onclick="toggleMenu()">About</a></li>
+    <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+    
+    <!-- Yellow Apply Button -->
+    <li>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfj_jfTp-aXzwqJN2dMpSBsXCw4aZBARPUIY6ZJJTLWNMprBw/viewform" 
+           target="_blank" 
+           onclick="toggleMenu()" 
+           class="nav-apply-btn">
+           Apply Now
+        </a>
+    </li>
+</ul>
     </div>
 
     <!-- HERO -->
     <header class="hero" id="home">
         <h1>RSDC AMS INDP PU COLLEGE</h1>
-        <p class="hero-admission">Admissions Open 2026-27 for</p>
+        <div class="admissions-notice">
+    <span>Admissions Open 2026-27 for</span>
+</div>
         <p class="hero-streams">HEBA • SEBA • CEBA</p>
         <p class="tagline" style="margin-bottom: 30px; font-size: 1.1rem; color: #fbfbea;">Quality Education and Expert Instruction at an Affordable Fee</p>
         <div class="btn-group">
@@ -232,12 +423,12 @@
             <!-- HEBA -->
             <div class="course-item reveal">
                 <div class="course-header" onclick="toggleAccordion(this)">
-                    <h3>HEBA</h3>
+                    <h3>HEBA (Click for more details)</h3>
                     <span class="course-arrow">▼</span>
                 </div>
                 <div class="course-content">
                     <div class="course-content-inner">
-                        <h4>History • Economics • Business • Accountancy</h4>
+                        <h4>History • Economics • Business Studies • Accountancy</h4>
                         <br>
                         <p><strong>What is HEBA?</strong><br>A commerce stream combined with social sciences (History/Economics) for strong conceptual clarity.</p>
                         <p><strong>Who should choose?</strong><br>• Interested in Civil Services, Law, Teaching, Journalism<br>• Enjoy theory and understanding society<br>• Prefer less mathematics</p>
@@ -248,12 +439,12 @@
             <!-- SEBA -->
             <div class="course-item reveal">
                 <div class="course-header" onclick="toggleAccordion(this)">
-                    <h3>SEBA</h3>
+                    <h3>SEBA (Click for more details)</h3>
                     <span class="course-arrow">▼</span>
                 </div>
                 <div class="course-content">
                     <div class="course-content-inner">
-                        <h4>Statistics • Economics • Business • Accountancy</h4>
+                        <h4>Statistics • Economics • Business Studies • Accountancy</h4>
                         <br>
                         <p><strong>What is SEBA?</strong><br>A data-oriented stream focusing on numbers, analysis, and logical thinking.</p>
                         <p><strong>Who should choose?</strong><br>• Good at Mathematics<br>• Aiming for CA, CFA, Actuarial Science<br>• Interested in Data Analysis & Finance</p>
@@ -264,12 +455,12 @@
             <!-- CEBA -->
             <div class="course-item reveal">
                 <div class="course-header" onclick="toggleAccordion(this)">
-                    <h3>CEBA</h3>
+                    <h3>CEBA (Click for more details)</h3>
                     <span class="course-arrow">▼</span>
                 </div>
                 <div class="course-content">
                     <div class="course-content-inner">
-                        <h4>Comp Science • Economics • Business • Accountancy</h4>
+                        <h4>Computer Science • Economics • Business Studies • Accountancy</h4>
                         <br>
                         <p><strong>What is CEBA?</strong><br>Modern commerce stream integrated with technology for the digital economy.</p>
                         <p><strong>Who should choose?</strong><br>• Interested in Tech + Business<br>• Planning careers in IT, Fintech, Digital Marketing<br>• Comfortable with computers</p>
@@ -291,7 +482,7 @@
                 <strong>RSDC AMS INDP PU College</strong> is more than just an educational institution; it is a community dedicated to shaping the leaders of tomorrow. Located in the heart of <strong>Hongasandra, Bangalore</strong>, we stand on the pillars of Discipline, Dedication, and Development.
             </p>
             <p style="text-align: justify; font-size: 1.1rem; color: #444;">
-                We believe that high-quality education should be accessible to everyone. Our mission is to provide expert academic guidance in <strong>Commerce and Arts</strong> while instilling strong moral values. We don't just prepare students for board exams; we prepare them for life.
+                We believe that high-quality education should be accessible to everyone. Our mission is to provide expert academic guidance in <strong>Commerce</strong> while instilling strong moral values. We don't just prepare students for board exams; we prepare them for life.
             </p>
 
             <hr style="margin: 30px 0; opacity: 0.2;">
@@ -386,9 +577,68 @@
         </div>
     </section>
 
+    <!-- AUTO-SLIDING HIGHLIGHTS -->
+<section id="highlights-slider" style="padding: 3rem 0; background: #fff; overflow: hidden;">
+    <h2 class="section-title">Campus Highlights</h2>
+    
+    <div class="slider-container" style="position: relative; width: 100%; overflow: hidden;">
+        <div class="slider-track" id="sliderTrack" style="display: flex; width: max-content; animation: scroll 40s linear infinite;">
+            <!-- Photos will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- BUTTON TO VIEW FULL GALLERY -->
+    <div style="text-align: center; margin-top: 30px;">
+    <a href="gallery.html" class="btn-gallery-unique">View Full Gallery</a>
+</div>
+</section>
+
+<style>
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); } 
+    }
+    .slider-img {
+        width: 350px; height: 250px; object-fit: cover;
+        margin: 0 15px; border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+</style>
+
+<script>
+    // --- SLIDER CONFIGURATION ---
+    const track = document.getElementById('sliderTrack');
+    
+    // We will show the first 10 photos from your gallery folder
+    // Ensure your photos are named gallery-1).jpg, gallery-2).jpg, etc.
+    const numberOfHighlights = 10; 
+
+    function createSlide(i) {
+        const img = document.createElement('img');
+        img.src = `images/gallery (${i}).jpg`; // Matches your new bulk-rename format
+        img.className = 'slider-img';
+        img.alt = "Campus Highlight";
+        
+        // Error handling: If image 1-10 doesn't exist, hide it so no broken icon shows
+        img.onerror = function() { this.style.display = 'none'; };
+        
+        return img;
+    }
+
+    // 1. Create the first set of 10 slides
+    for (let i = 1; i <= numberOfHighlights; i++) {
+        track.appendChild(createSlide(i));
+    }
+
+    // 2. Duplicate them to create the "infinite loop" effect
+    for (let i = 1; i <= numberOfHighlights; i++) {
+        track.appendChild(createSlide(i));
+    }
+</script>
+
     <footer>
         <div class="footer-content">
-            <h3>RSDC AMS INDP PU COLLEGE | Thanks for the visit...!</h3>
+            <h3>RSDC PU COLLEGE | Thanks for the visit !</h3>
             <div class="footer-links"><a href="#home">Home</a>|<a href="#courses">Courses</a>|<a href="#contact">Contact</a></div>
         </div>
         <div class="copyright">&copy; 2026 RSDC AMS INDP PU College.</div>
@@ -531,8 +781,19 @@
             root.style.fontSize = (currentZoom * 16) + 'px'; 
         }
 
-        // 2. Mobile Menu
-        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); }
+        // 2. Mobile Menu (Fixed)
+function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    const hamburger = document.querySelector('.hamburger'); // Selects the button
+    
+    // Toggle the menu visibility
+    menu.classList.toggle('active');
+    
+    // Toggle the X animation on the button
+    if (hamburger) {
+        hamburger.classList.toggle('active');
+    }
+}
 
         // 3. Modals
         function openModal(id) {
@@ -577,11 +838,18 @@
                 });
         }
 
-        // 5. Scroll Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        // REPLAYABLE SCROLL ANIMATION
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active'); // Add class when visible
+        } else {
+            entry.target.classList.remove('active'); // Remove class when hidden (resets animation)
+        }
+    });
+}, { threshold: 0.15 }); // Trigger when 15% is visible
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         
         // 6. Accordion
         function toggleAccordion(element) {
