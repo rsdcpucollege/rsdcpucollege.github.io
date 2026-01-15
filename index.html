@@ -864,6 +864,101 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             parent.classList.toggle('course-active');
             content.style.maxHeight = parent.classList.contains('course-active') ? content.scrollHeight + "px" : null;
         }
-    </script>
+
+/* --- UNIVERSAL LIGHTBOX (CLICK, KEYBOARD & SWIPE) --- */
+
+// 1. Select Elements
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const closeBtn = document.querySelector('.close-lightbox');
+
+// 2. State Variables
+let galleryImages = []; // Stores the src of all images
+let currentIndex = 0;   // Tracks current image index
+
+// 3. OPEN LIGHTBOX (Event Delegation)
+document.body.addEventListener('click', function(e) {
+    // Check if user clicked an image inside the gallery grid
+    if (e.target.tagName === 'IMG' && e.target.closest('.gallery-grid')) {
+        e.preventDefault();
+        
+        // A. Find all images in the grid dynamically
+        const allImages = document.querySelectorAll('.gallery-grid img');
+        
+        // B. Create an array of their sources
+        galleryImages = Array.from(allImages).map(img => img.src);
+        
+        // C. Find which one was clicked
+        currentIndex = galleryImages.indexOf(e.target.src);
+        
+        // D. Show Lightbox
+        updateLightbox();
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Disable background scroll
+    }
+});
+
+// 4. UPDATE IMAGE FUNCTION
+function updateLightbox() {
+    // Safety check
+    if (currentIndex < 0) currentIndex = galleryImages.length - 1;
+    if (currentIndex >= galleryImages.length) currentIndex = 0;
+    
+    lightboxImg.src = galleryImages[currentIndex];
+}
+
+// 5. NAVIGATION FUNCTIONS
+function showNext() {
+    currentIndex++;
+    updateLightbox();
+}
+
+function showPrev() {
+    currentIndex--;
+    updateLightbox();
+}
+
+// 6. KEYBOARD NAVIGATION
+document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'Escape') closeLightbox();
+});
+
+// 7. MOBILE SWIPE NAVIGATION
+let touchStartX = 0;
+let touchEndX = 0;
+
+lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+lightbox.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+    let swipeThreshold = 50; 
+    
+    if (touchEndX < touchStartX - swipeThreshold) showNext(); // Swiped Left -> Next
+    if (touchEndX > touchStartX + swipeThreshold) showPrev(); // Swiped Right -> Prev
+}
+
+// 8. CLOSE LOGIC
+closeBtn.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+});
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto'; // Re-enable scroll
+}
+
+
+     </script>
 </body>
 </html> 
